@@ -1,8 +1,8 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { ReplaySubject } from "rxjs";
+import { Injectable, OnDestroy } from '@angular/core';
+import { ReplaySubject } from 'rxjs';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class DestroyedService extends ReplaySubject<void> implements OnDestroy {
   constructor() {

@@ -1,8 +1,8 @@
-import { Inject, Injectable } from "@angular/core";
-import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from "@angular/material/snack-bar";
+import { Inject, Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class SnackbarService {
   private readonly _config: MatSnackBarConfig = new MatSnackBarConfig();

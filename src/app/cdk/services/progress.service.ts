@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, delay, Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, delay, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class ProgressService {
   private readonly _isLoading$ = new BehaviorSubject<boolean>(false);

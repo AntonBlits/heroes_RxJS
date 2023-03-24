@@ -1,0 +1,13 @@
+<h2>Top Heroes</h2>
+<div class="heroes-menu">
+  <a *ngFor="let hero of firstHeroes$ | async"
+      routerLink="/detail/{{ hero.id }}">
+      {{ hero.name }}
+  </a>
+</div>
+
+<app-hero-search
+  [(ngModel)]="value"
+  [heroes$]="heroes$"
+  (input)="search()"
+></app-hero-search>

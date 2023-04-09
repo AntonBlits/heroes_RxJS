@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
+import { Observable } from "rxjs";
 
-import { Hero } from '../interface/hero';
-import { HeroService } from '../services/hero.service';
+import { Hero } from "../interface/hero";
+import { HeroService } from "../services/hero.service";
 
 @Component({
-  selector: 'app-heroes',
-  templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.css'],
+  selector: "app-heroes",
+  templateUrl: "./heroes.component.html",
+  styleUrls: ["./heroes.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroesComponent {

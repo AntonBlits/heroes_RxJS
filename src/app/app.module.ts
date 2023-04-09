@@ -15,6 +15,7 @@ import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FilterPipe } from "./pipes/filter.pipe";
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     DashboardComponent,
     HeroesComponent,
     HeroDetailComponent,
-    HeroSearchComponent
+    HeroSearchComponent,
+    FilterPipe
   ],
   bootstrap: [ AppComponent ]
 })

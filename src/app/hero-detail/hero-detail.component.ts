@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {Location} from '@angular/common';
 
-import { HeroService } from '../services/hero.service';
-import { Hero } from '../interface/hero';
+import {HeroService} from '../services/hero.service';
+import {Hero} from '../interface/hero';
+import {filter, shareReplay, switchMap} from 'rxjs';
+import {map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-hero-detail',
@@ -12,14 +14,22 @@ import { Hero } from '../interface/hero';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroDetailComponent {
-  private readonly _id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-  readonly hero$ = this._heroService.getHero(this._id);
+  readonly hero$ = this._activatedRoute.paramMap.pipe(
+    map((params: ParamMap) => params.get('id') as string),
+    filter(Boolean),
+    switchMap((id: string) =>
+      this._heroService.getHero(Number(id))),
+    shareReplay(1)
+  );
+
+  disabled = false;
 
   constructor(
     @Inject(HeroService) private readonly _heroService: HeroService,
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location
+    private location: Location,
+    private _activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -27,9 +37,11 @@ export class HeroDetailComponent {
     this.location.back();
   }
 
-  save(hero: Hero): void {
+  save(hero?: Hero): void {
+    this.disabled = true;
     if (hero) {
       this.heroService.updateHero(hero);
+      this.disabled = false;
       this.goBack();
     }
   }

@@ -36,9 +36,7 @@ export class HeroService {
     return this._heroApi.getHero(id).pipe(
       tap(() => this._snackbar.open(`fetched hero id=${id}`)),
       catchError(this.handleError<Hero>(`getHero id=${id}`)),
-      finalize(() => {
-        this._progress.stop();
-      })
+      finalize(() => this._progress.stop()),
     );
   }
 
@@ -61,9 +59,9 @@ export class HeroService {
         this._snackbar.open(`added hero id=${newHero.id}`);
         this._heroes$.next();
       }),
-      catchError(this.handleError<Hero>('addHero')),
-      takeUntil(this._destroyed$)
-    ).subscribe(() => this._progress.stop());
+      takeUntil(this._destroyed$),
+      finalize(() => this._progress.stop()),
+    ).subscribe();
   }
 
   deleteHero(id: number): void {
@@ -73,9 +71,9 @@ export class HeroService {
         this._snackbar.open(`deleted hero id=${id}`);
         this._heroes$.next();
       }),
-      catchError(this.handleError<Hero>('deleteHero')),
-      takeUntil(this._destroyed$)
-    ).subscribe(() => this._progress.stop());
+      takeUntil(this._destroyed$),
+      finalize(() => this._progress.stop()),
+    ).subscribe();
   }
 
   updateHero(hero: Hero): void {
@@ -85,15 +83,15 @@ export class HeroService {
         this._snackbar.open(`updated hero id=${hero.id}`);
         this._heroes$.next();
       }),
-      catchError(this.handleError<any>('updateHero')),
-      takeUntil(this._destroyed$)
-    ).subscribe(() => this._progress.stop());
+      catchError(this.handleError<Hero>('updateHero')),
+      takeUntil(this._destroyed$),
+      finalize(() => this._progress.stop()),
+    ).subscribe();
   }
 
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       this._snackbar.open(`${operation} failed: ${error.message}`);
 
       return of(result as T);

@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable } from 'rxjs';
-
-import { Hero } from '../interface/hero';
 
 @Component({
   selector: 'app-hero-search',
@@ -18,8 +15,6 @@ import { Hero } from '../interface/hero';
   ]
 })
 export class HeroSearchComponent implements ControlValueAccessor {
-  @Input() heroes$!: Observable<Hero[]>;
-
   onChange: any = () => {};
   onTouch: any = () => {};
   val = '';

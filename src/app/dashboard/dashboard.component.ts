@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { finalize, Observable, pairwise, scan, startWith, Subject, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { Hero } from '../interface/hero';
 import { HeroService } from '../services/hero.service';
+import { smartSearch } from "../cdk/helpers/smartSearch";
+import { ProgressService } from "../cdk/services/progress.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,24 +15,31 @@ import { HeroService } from '../services/hero.service';
 })
 export class DashboardComponent {
 
-  heroes$!: Observable<Array<Hero>>;
-  value!: string
+  readonly searchHeroes$ = new Subject<string>();
+  value!: string;
 
-  readonly firstHeroes$ = this._heroService._getHeroes$.pipe(
-    map((hero: Hero[]) =>
-      hero.filter((hero: Hero, index: number) =>
-        index < 4))
-  );
+  readonly heroes$ = this.searchHeroes$.pipe(
+    tap(() => this._progress.start()),
+    smartSearch((value: string) =>
+      this._heroService.searchHeroes(value).pipe(
+        finalize(() => this._progress.stop()),
+      ),
+       () => this._progress.stop()
+    )
+  )
+
+  readonly filterValue = (item: Hero, value: string): boolean =>
+    item.name.toLowerCase().includes(value?.toLowerCase());
+
+  readonly trackBy = (index: number): number => index;
 
   constructor(
-    @Inject(HeroService) private readonly _heroService: HeroService) {
+    @Inject(HeroService) private readonly _heroService: HeroService,
+    @Inject(ProgressService) private readonly _progress: ProgressService
+  ) {
   }
 
   search(): void {
-    this.heroes$ = this._heroService.searchHeroes(this.value).pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      shareReplay(1)
-    );
+    this.searchHeroes$.next(this.value);
   }
 }

@@ -1,23 +1,30 @@
-// eslint-disable-next-line no-undef
 module.exports = {
-  "env": {
+  env: {
     "browser": true,
     "es2021": true
   },
-  "extends": [
+  extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "overrides": [],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
+  ignorePatterns: [
+    'e2e',
+    'src/**/test.ts',
+    'src/**/main.ts',
+    'src/**/polyfills.ts',
+    '*.js',
+    '*.json',
+    '*.scss',
+    '*.md',
+  ],
+  parserOptions: {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
+  plugins: [
     "@typescript-eslint"
   ],
-  "rules": {
+  rules: {
     "indent": [
       "error",
       2
@@ -33,6 +40,19 @@ module.exports = {
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "@typescript-eslint/no-empty-interface": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/no-for-in-array": "error",
+    "@typescript-eslint/no-unsafe-argument": "error",
+    "@typescript-eslint/no-unsafe-assignment": "error",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/no-unsafe-return": "error",
+    "@typescript-eslint/restrict-plus-operands": "error",
+    "@typescript-eslint/no-empty-function": "error",
+    "@typescript-eslint/no-extra-semi": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/require-await": "error",
   }
 };

@@ -39,7 +39,7 @@ export class HeroApi {
     return this.http.delete<Hero>(url, this.httpOptions);
   }
 
-  updateHero(hero: Hero): Observable<any> {
-    return this.http.put(this.heroesUrl, hero, this.httpOptions);
+  updateHero(hero: Hero): Observable<Hero> {
+    return this.http.put<Hero>(this.heroesUrl , hero, this.httpOptions);
   }
 }
